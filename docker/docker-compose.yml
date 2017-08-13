@@ -13,6 +13,9 @@ services:
       - influxdb
     restart:
       always
+    environment:
+      GF_AUTH_ANONYMOUS_ENABLED:  "true"
+      GF_AUTH_BASIC_ENABLED:    "false"
 
   influxdb:
     image:
