@@ -11,8 +11,8 @@ def main():
     client.create_user(USERNAME, PASSWORD)
     client.create_database('sensor')
     client.grant_privilege('all', 'sensor', USERNAME)
-    client grant_admin_privileges(USERNAME)
-    c.alter_retention_policy("autogen", duration="1w")
+    client.grant_admin_privileges(USERNAME)
+    client.alter_retention_policy("autogen", duration="1w")
 
 if __name__=='__main__':
     main()
