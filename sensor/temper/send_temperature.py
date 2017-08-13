@@ -1,19 +1,17 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 
+import os
 import subprocess
 import datetime
+import json
 from influxdb import InfluxDBClient
 
-USERNAME = 'user'
-PASSWORD = 'password'
-DBNAME = 'sensor'
-HOST = '192.168.0.11'
-PORT = 6002
-LOCATE = "shizuoka"
+settingfile = "../../setting.json"
 
 def main():
-    c = InfluxDBClient(host=HOST, port=PORT, username=USERNAME, password=PASSWORD, database=DBNAME)
+    s = json.load(open(settingfile, "r"))
+    c = InfluxDBClient(host=s["host"], port=s["port"], username=s["username"], password=s["password"], database=s["dbname"])
 
     result = subprocess.check_output(["temper"])
     result_lst = result.decode("utf-8").replace("\n","").split(",")
@@ -29,7 +27,7 @@ def main():
             "measurement": "sensor",
             "time": sensor_time.isoformat(),
             "tags": {
-                "locate": LOCATE
+                "locate": s["locate"]
             },
             "fields": {
                 "temperature": sensor_temperature
