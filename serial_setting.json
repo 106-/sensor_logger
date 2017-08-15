@@ -1,0 +1,8 @@
+{
+    "devfile":          "/dev/ttyACM0",
+    "baudrate":         115200,
+    "timeout":          0.1,
+    "interval":         1,
+    "threshold":        10,
+    "min_response_size":14
+}
