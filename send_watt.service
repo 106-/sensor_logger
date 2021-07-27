@@ -1,0 +1,16 @@
+[Unit]
+Description = Script to Send Power Consumption
+After=network.target
+
+[Install]
+WantedBy = multi-user.target
+
+[Service]
+Type = simple
+User = pi
+WorkingDirectory = hoge
+EnvironmentFile = hoge
+ExecStart = hoge
+ExecStop = /bin/kill ${MAINPID}
+KillSignal = SIGCONT
+Restart = always
