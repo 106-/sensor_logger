@@ -11,12 +11,21 @@ effective_voltage = 100 # 交流電源の実効電圧
 pot = MCP3008(channel=0, max_voltage=max_voltage)
 
 # 2.5Vに分圧しているので`pot.value`の平均は0.5になるはずだが, 実際には少しずれている.
-# その差がこの変数である.
-bias = 0.49690356619443293
+# それがこの変数である.
+bias = 0.492533
 
 # クランプ内に流れる電力を返す(交流なので負の値もありえる)
 def current():
-    return (pot.value - bias) * max_voltage / resist * rate * effective_voltage
+    # `pot.value`の取る値[0, +1]を[-0.5, +0.5]の範囲にしたあと,
+    # 最大電圧(5.0V)をかけて電圧に変換する.
+    voltage = (pot.value - bias) * max_voltage
+    # オームの法則から, センサーに流れている電流を計算する.
+    ampere = voltage / resist
+    # CTセンサに流れている電流から, 観測対象の回路の電流を計算する.
+    ampere_observe = ampere * rate
+    # 電流*実効電圧で電力量を計算する.
+    watt = ampere_observe * effective_voltage
+    return watt
 
 while True:
     sum_ = 0
